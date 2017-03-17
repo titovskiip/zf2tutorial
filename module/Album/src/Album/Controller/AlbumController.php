@@ -9,6 +9,7 @@ class AlbumController extends AbstractActionController
 {
     public function indexAction()
     {
+        echo "dev";
     }
 
     public function addAction()
