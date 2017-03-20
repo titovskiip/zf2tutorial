@@ -1,6 +1,20 @@
 <?php
 
 return array(
+    'doctrine' => array(
+        'driver' => array(
+            'album_entity' => array(
+                'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'paths' => array(__DIR__ . '/../src/Album/Entity')
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    'Album\Entity' => 'album_entity',
+                )
+            )
+        )
+    ),
+
     'controllers' => array(
         'invokables' => array(
             'Album\Controller\Album' => 'Album\Controller\AlbumController',
@@ -17,7 +31,7 @@ return array(
             'album' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/[/:action][/:id]',
+                    'route'    => '/album[/:action][/:id]',
                     'constraints' => array(
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]+',
