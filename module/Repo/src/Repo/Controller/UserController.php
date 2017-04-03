@@ -1,13 +1,15 @@
 <?php
-namespace Album\Controller;
+
+namespace Repo\Controller;
+
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Album\Entity\Album;
+/*use Album\Entity\Album;
 use Album\Model;
-use Album\Form\AlbumForm;
-use Album\Form\RoleForm;
+use Album\Form\AlbumForm;*/
 use Doctrine\ORM\EntityManager;
-class AlbumController extends AbstractActionController
+
+class UserController extends AbstractActionController
 {
     protected $em;
 
@@ -22,11 +24,38 @@ class AlbumController extends AbstractActionController
     public function indexAction()
     {
         return new ViewModel(array(
-            'albums' => $this->getEntityManager()->getRepository('Album\Entity\Album')->findAll(),
+            'albums' => 'Album\Entity\Album',
         ));
     }
 
-    public function addAction()
+    public function authAction(){
+        $form = new Application_Form_Enter();
+        if ($form->isValid($this->getRequest()->getPost())){
+            $bootstrap = $this->getInvokeArg('bootstrap');
+            $auth = Zend_Auth::getInstance();
+            $adapter = $bootstrap->getPluginResource('db')->getDbAdapter();
+            $authAdapter = new Zend_Auth_Adapter_DbTable(
+                $adapter, 'user', 'login',
+                'password', 'MD5(?)'
+            );
+            $authAdapter->setIdentity($form->login->getValue());
+            $authAdapter->setCredential($form->password->getValue());
+            $result = $auth->authenticate($authAdapter);
+            // Если валидация прошла успешно сохраняем в storage инфу о пользователе
+            if ($result->isValid()){
+                $storage = $auth->getStorage();
+                $storage_data = $authAdapter->getResultRowObject(
+                    null,
+                    array('activate', 'password', 'enabled'));
+                $user_model = new Application_Model_DbTable_User();
+                $language_model = new Application_Model_DbTable_Language();
+                $storage_data->status = 'user';
+                $storage->write($storage_data);
+            }
+        }
+    }
+
+   /* public function addAction()
     {
         $form = new AlbumForm();
         $form->get('submit')->setValue('Add');
@@ -45,7 +74,6 @@ class AlbumController extends AbstractActionController
         }
         return array('form' => $form);
     }
-
     public function editAction()
     {
         $id = (int) $this->params()->fromRoute('id', 0);
@@ -102,13 +130,5 @@ class AlbumController extends AbstractActionController
             'id'    => $id,
             'album' => $this->getEntityManager()->find('Album\Entity\Album', $id)
         );
-    }
-
-    public function roleAction()
-    {
-        $form = new RoleForm();
-        return array('form' => $form);
-
-    }
-
+    }*/
 }
