@@ -13,31 +13,61 @@ use Zend\InputFilter\InputFilterInterface;
  *
  * @ORM\Entity
  * @ORM\Table(name="role")
- * @property int $idRole
- * @property string $Role
+ * @property int $idrole
+ * @property string $role
  */
-class Role implements InputFilterAwareInterface
+class Role
 {
-    protected $idRole;
-
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="idrole", type="integer")
      * @ORM\Id
-     * @ORM\Column(type="integer");
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $Role;
+    protected $idrole;
+    /**
+     *
+     * @ORM\Column(name="role", type="string")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $role;
+
 
     /**
-     * @ORM\Column(type="string")
+     * @return mixed
      */
-
-    public function setInputFilter(InputFilterInterface $inputFilter)
+    public function getIdrole()
     {
-        throw new \Exception("Not used");
+        return $this->idrole;
     }
 
-    public function getInputFilter()
+    /**
+     * @param mixed $idrole
+     * @return $this
+     */
+    public function setIdrole($idrole)
     {
-
+        $this->idrole = $idrole;
+        return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param mixed $role
+     * @return $this
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+        return $this;
+    }
+
 }

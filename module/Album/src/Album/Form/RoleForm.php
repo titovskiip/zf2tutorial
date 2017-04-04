@@ -3,16 +3,23 @@
 namespace Album\Form;
 
 use Zend\Form\Form;
+use Album\Entity\Role;
+use Doctrine\ORM\EntityManager;
 use Zend\InputFilter\Factory as InputFactory;
 use Zend\InputFilter\InputFilter;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-class RoleForm extends Form
+class RoleForm extends Form implements ServiceLocatorAwareInterface
 {
+    use ServiceLocatorAwareTrait;
+
     public function __construct($name = null)
     {
         // we want to ignore the name passed
-        parent::__construct('album');
+        parent::__construct('role');
 
+        //$r = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default')->getRepository('Album\Entity\Role')->findAll();
         $this->setAttribute('method', 'post');
         $this->add(array(
             'name' => 'id',
@@ -22,17 +29,22 @@ class RoleForm extends Form
         ));
         $this->add(array(
             'name' => 'role',
-            'type'  => 'Select',
-            'attributes' => array(
-                'onChange' => 'alert("Клик!")'
-            ),
+            'type'  => 'DoctrineModule\Form\Element\ObjectSelect',
+            /*'attributes' => array(
+                'onChange' => 'change()'
+            ),*/
             'options' => array(
-                'label' => 'role',
-                'value_options' => array(
-                    '1' => 'Федеральная антимонопольная служба',
-                    '2' => 'Федеральная служба по оборонному заказу',
-                    '3' => 'Орган исполнительной власти субъекта РФ',
-                    '4' => 'Орган местного самоуправления муниципального района, городского округа',
+                'label' => 'Role',
+                'empty_option'   => '',
+                'object_manager' => $this->getServiceManager()->get('doctrine.entitymanager.orm_default'),
+                'target_class'   => Role::class,
+                'property'       => 'role',
+                'find_method' => array(
+                    'name' => 'findBy',
+                    'params' => array(
+                        'criteria' => array(
+                        ),
+                    ),
                 ),
             ),
         ));

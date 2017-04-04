@@ -10,8 +10,17 @@
     //$form->setAttribute('action', $this->url('album', array('action' => 'add')));
     $form->prepare();
 
+
     echo $this->form()->openTag($form);
-    echo $this->formHidden($form->get('id'));
-    echo $this->formRow($form->get('role'));
+    //echo $this->formHidden($form->get('id'));
+    //echo $this->stepFormElementCommon($this->role);
     //echo $this->formRow($form->get('submit'));
     echo $this->form()->closeTag();
+
+?>
+
+<script>
+    function change(){
+
+    }
+</script>

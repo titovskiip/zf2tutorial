@@ -1,5 +1,8 @@
 <?php
+
 namespace Album\Controller;
+
+use Album\Entity\Role;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Album\Entity\Album;
@@ -7,6 +10,8 @@ use Album\Model;
 use Album\Form\AlbumForm;
 use Album\Form\RoleForm;
 use Doctrine\ORM\EntityManager;
+
+
 class AlbumController extends AbstractActionController
 {
     protected $em;
@@ -104,10 +109,15 @@ class AlbumController extends AbstractActionController
         );
     }
 
+
+
     public function roleAction()
     {
         $form = new RoleForm();
-        return array('form' => $form);
+        return array(
+            'form' => $form
+            //role' => $this->getEntityManager()->getRepository('Album\Entity\Role')->findAll()
+        );
 
     }
 
