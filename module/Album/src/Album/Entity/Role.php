@@ -9,12 +9,9 @@ use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
 /**
- * A music album.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Album\Repository\RoleRepository")
  * @ORM\Table(name="role")
- * @property int $idrole
- * @property string $role
  */
 class Role
 {
@@ -33,9 +30,8 @@ class Role
      */
     protected $role;
 
-
     /**
-     * @return mixed
+     * @return int
      */
     public function getIdrole()
     {
@@ -43,7 +39,7 @@ class Role
     }
 
     /**
-     * @param mixed $idrole
+     * @param int $idrole
      * @return $this
      */
     public function setIdrole($idrole)

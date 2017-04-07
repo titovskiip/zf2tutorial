@@ -3,22 +3,24 @@
 namespace Album\Form;
 
 use Zend\Form\Form;
-use Album\Entity\Role;
+use Zend\InputFilter\InputFilterProviderInterface;
 use Doctrine\ORM\EntityManager;
-use Zend\InputFilter\Factory as InputFactory;
-use Zend\InputFilter\InputFilter;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 class RoleForm extends Form implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
 
-    public function __construct($name = null)
-    {
-        // we want to ignore the name passed
-        parent::__construct('role');
+    protected $entityManager;
 
+    public function __construct(EntityManager $entityManager)
+    {
+        parent::__construct();
+
+        $this->entityManager = $entityManager;
+    }
+
+    public function init()
+    {
         //$r = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default')->getRepository('Album\Entity\Role')->findAll();
         $this->setAttribute('method', 'post');
         $this->add(array(
@@ -27,24 +29,17 @@ class RoleForm extends Form implements ServiceLocatorAwareInterface
                 'type'  => 'hidden',
             ),
         ));
+
         $this->add(array(
             'name' => 'role',
-            'type'  => 'DoctrineModule\Form\Element\ObjectSelect',
-            /*'attributes' => array(
-                'onChange' => 'change()'
-            ),*/
+            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
             'options' => array(
-                'label' => 'Role',
-                'empty_option'   => '',
-                'object_manager' => $this->getServiceManager()->get('doctrine.entitymanager.orm_default'),
-                'target_class'   => Role::class,
-                'property'       => 'role',
-                'find_method' => array(
-                    'name' => 'findBy',
-                    'params' => array(
-                        'criteria' => array(
-                        ),
-                    ),
+                'object_manager'     => $this->entityManager,
+                'target_class'       =>  Role::class,
+                'property' => 'role',
+                'is_method' => true,
+                'find_method'        => array(
+                    'name'   => 'getRole',
                 ),
             ),
         ));

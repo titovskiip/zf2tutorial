@@ -1,0 +1,49 @@
+<?php
+
+namespace Blog\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Comment
+ *
+ * @ORM\Table(name="comment", indexes={@ORM\Index(name="comment_id_idx", columns={"article"})})
+ * @ORM\Entity
+ */
+class Comment
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user_email", type="string", length=50, nullable=false)
+     */
+    private $userEmail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="comment", type="text", nullable=false)
+     */
+    private $comment;
+
+    /**
+     * @var \Blog\Entity\Article
+     *
+     * @ORM\ManyToOne(targetEntity="Blog\Entity\Article")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="article", referencedColumnName="id")
+     * })
+     */
+    private $article;
+
+
+}

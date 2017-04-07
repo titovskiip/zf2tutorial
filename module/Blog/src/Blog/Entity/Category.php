@@ -1,0 +1,39 @@
+<?php
+
+namespace Blog\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Category
+ *
+ * @ORM\Table(name="category", uniqueConstraints={@ORM\UniqueConstraint(name="category", columns={"category_key"})})
+ * @ORM\Entity
+ */
+class Category
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="category_key", type="string", length=45, nullable=false)
+     */
+    private $categoryKey;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="category_name", type="string", length=100, nullable=false)
+     */
+    private $categoryName;
+
+
+}

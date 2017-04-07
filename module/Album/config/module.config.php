@@ -15,10 +15,20 @@ return array(
         )
     ),
 
-    'controllers' => array(
-        'invokables' => array(
-            'Album\Controller\Album' => 'Album\Controller\AlbumController',
+    'form_elements' => array(
+        'factories' => array(
+            'Album\Form\RoleForm' => 'Album\Factory\Form\RoleFormFactory',
         ),
+    ),
+
+    'controllers' => array(
+       /* 'invokables' => array(
+            'Album\Controller\Album' => 'Album\Controller\AlbumController',
+        ),*/
+        'factories' => array(
+            'Album\Controller\Album' => 'Album\Factory\Controller\RoleControllerFactory',
+        ),
+
     ),
     'view_manager' => array(
         'template_path_stack' => array(

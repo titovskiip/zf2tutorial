@@ -8,13 +8,20 @@ use Zend\View\Model\ViewModel;
 use Album\Entity\Album;
 use Album\Model;
 use Album\Form\AlbumForm;
-use Album\Form\RoleForm;
+use Zend\Form\FormInterface;
 use Doctrine\ORM\EntityManager;
 
 
 class AlbumController extends AbstractActionController
 {
     protected $em;
+
+    protected $roleForm;
+
+    public function __construct(FormInterface $roleForm)
+    {
+        $this->$roleForm = $roleForm;
+    }
 
     public function getEntityManager()
     {
@@ -113,11 +120,11 @@ class AlbumController extends AbstractActionController
 
     public function roleAction()
     {
-        $form = new RoleForm();
-        return array(
-            'form' => $form
-            //role' => $this->getEntityManager()->getRepository('Album\Entity\Role')->findAll()
-        );
+
+      //  $form = $this->getServiceLocator()->get('FormElementManager')->get(RoleForm::class);
+        return new ViewModel(array(
+            'form' => $this->roleForm,
+        ));
 
     }
 
