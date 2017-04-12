@@ -10,7 +10,7 @@ return array(
 
     'router' => array(
         'routes' => array(
-            'blog' => array(
+            'admin' => array(
                 'type'    => 'literal',
                 'options' => array(
                     'route'    => '/admin/',

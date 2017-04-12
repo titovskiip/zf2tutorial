@@ -9,7 +9,7 @@ return array(
         'DoctrineModule',
         'DoctrineORMModule',
         'Application',
-        //'ZendDeveloperTools',
+        'ZendDeveloperTools',
         'Album',
         //'MyBlog',
         'Blog',
