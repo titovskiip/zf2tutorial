@@ -1,0 +1,42 @@
+<h1>Категории</h1>
+
+<a href="/admin/category/add/">Добавить</a><br>
+<?php
+    $flash=$this->flashMessenger();
+    $flash->setMessageOpenFormat(
+        '<div%s><ul><li>
+        ')
+        ->setMessageSeparatorString('</li><li>')
+        ->setMessageCloseString('</li></ul></div>');
+
+    echo $flash->render('error', array('alert', 'alert-dissmissable', 'alert-danger'));
+    echo $flash->render('info', array('alert', 'alert-dissmissable', 'alert-info'));
+    echo $flash->render('default', array('alert', 'alert-dissmissable', 'alert-warning'));
+    echo $flash->render('success');
+?>
+
+<table class="table-bordered">
+    <tbody>
+        <tr>
+            <th>#</th>
+            <th>Ключ</th>
+            <th>Название</th>
+            <th>Действие</th>
+        </tr>
+<?php
+foreach ($category as $item) {
+    echo "<tr>
+            <td>{$item->getId()}</td>
+            <td>{$item->getCategoryKey()}</td>
+            <td>{$item->getCategoryName()}</td>
+    ";
+    echo "
+        <td>
+            <a href='/admin/category/edit/" .$item->getId(). "/'>Редактировать</a>
+            <a href='/admin/category/delete/" .$item->getId(). "/''>Удалить</a>
+        </td>
+    ";
+    echo "</tr>";
+}?>
+    </tbody>
+</table>

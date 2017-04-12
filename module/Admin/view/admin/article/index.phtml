@@ -1,0 +1,49 @@
+<h1>Статьи</h1>
+
+<a href="/admin/article/add/">Добавить</a><br>
+
+<table class="table-bordered">
+    <tbody>
+    <tr>
+        <th>#</th>
+        <th>Категория</th>
+        <th>Заголовок</th>
+        <th>Статья</th>
+        <th>Начало статьи</th>
+        <th>Опубликовано</th>
+        <th>Действие</th>
+    </tr>
+    <?php
+    foreach ($articles as $item) {
+        $category = $item->getCategory();
+        if ($category){
+            $catName=$category->getCategoryName();
+        } else {
+            $catName = '';
+        }
+        if ($item->getIsPublic()){
+            $isPublic = 'Да';
+        } else {
+            $isPublic = 'Нет';
+        }
+        echo "<tr>
+            <td>{$item->getId()}</td>
+            <td>{$catName}</td>
+            <td>{$item->getTitle()}</td>
+            <td>{$item->getArticleForTable()}</td>
+            <td>{$item->getShortArticleForTable()}</td>
+            <td>{$isPublic}</td>
+        ";
+        echo '
+        <td>
+            <a href="'.$this->url('admin/article', array('action' => 'edit', 'id' => $item->getId())).'">Редактировать</a>
+            <a href="'.$this->url('admin/article', array('action' => 'delete', 'id' => $item->getId())).'">Удалить</a>
+        </td>';
+        echo "</tr>";
+    }?>
+    </tbody>
+</table>
+
+<?php
+echo $this->paginationControl($articles, 'Sliding', 'pagination_control', array('route' =>'admin/article'));
+?>
