@@ -10,5 +10,31 @@
             </li>
         <?php endif;?>
 
+        <?php foreach ($this->pagesInRange as $page):
+            if($page!=$this->current): ?>
+                <li>
+                    <a href="<?php echo $this->url($this->route);?>?page=<?php echo $page;?>">
+                        <?php echo $page;?>
+                    </a>
+                </li>
+            <?php else:?>
+                <li class="active">
+                    <a href="#"><?php echo $page;?></a>
+                </li>
+            <?php endif;?>
+        <?php endforeach;?>
+        <?php if (isset($this->next)):?>
+            <li>
+                <a href="<?php echo $this->url($this->route);?>?page=<?php echo $this->next;?>">
+                    >>
+                </a>
+            </li>
+        <?php else:?>
+        <li class="disabled">
+            <a href="#" onclick="return false;">
+                >>
+            </a>
+        </li>
+        <?php endif; ?>
     </ul>
 <?php endif;?>

@@ -2,7 +2,8 @@
 
 namespace Admin\Controller;
 
-use Admin\Form\CategoryAddForm;
+use Admin\Form\ArticleAddForm;
+use Blog\Entity\Article;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Application\Controller\BaseAdminController as BaseController;
@@ -24,8 +25,51 @@ class ArticleController extends BaseController
         $adapter = new DoctrineAdapter(new ORMPaginator($query));
 
         $paginator = new Paginator($adapter);
-        $paginator->setDefaultItemCountPerPage(10);
+        $paginator->setDefaultItemCountPerPage(1);
         $paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page',1));
         return array('articles' => $paginator);
+    }
+
+    public function addAction()
+    {
+        $em = $this->getEntityManager();
+        $form = new ArticleAddForm($em);;
+
+        $request = $this->getRequest();
+
+        if ($request->isPost()) {
+            $status = $message = '';
+            $data = $request->getPost();
+            $article = new Article();
+            $form->setHydrator(new DoctrineHydrator($em, '\Article'));
+            $form->bind($article);
+            $form->setData($data);
+
+            if ($form->isValid()) {
+                $em->pesist($article);
+                $em->flush();
+
+                $status = 'success';
+                $message = 'Статья добавлена';
+            } else {
+                $status = 'error';
+                $message = 'Ошибка';
+
+                foreach ($form->getInputFilter()->getInvalidInput() as $errors) {
+                    foreach ($errors->getMessage() as $error) {
+                        $message .= ' ' . $error;
+                    }
+                }
+            }
+        } else {
+            return array('form' => $form);
+        }
+
+        if ($message) {
+            $this->flashMessenger()->setNamespace($status)->addMessage($message);
+        }
+
+        return $this->redirect()->toRoute('admin/article');
+
     }
 }
