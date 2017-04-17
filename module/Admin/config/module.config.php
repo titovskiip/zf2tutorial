@@ -43,10 +43,64 @@ return array(
                             )
                         )
                     ),
+                ),// <<
+            ),
+        ),
+    ),
+
+    'service_manager' => array(
+        'factories' => array(
+            'navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
+            'admin_navigation' => 'Admin\Lib\AdminNavigationFactory',
+        ),
+    ),
+
+    'navigation' => array(
+        'default' => array(
+            array(
+                'label'=>'Главная',
+                'route'=> 'home',
+            ),
+        ),
+        'admin_navigation' => array(
+            array(
+                'label'=>'Панель управления сайтом',
+                'route'=>'admin',
+                'action'=>'index',
+                'resource'=>'Admin\Controller\Index',
+
+                'pages' => array(
+                    array(
+                        'label'=>'Статьи',
+                        'route'=>'admin/article',
+                        'action'=>'index',
+                    ),
+                    array(
+                        'label'=>'Добавить статью',
+                        'route'=>'admin/article',
+                        'action'=>'add',
+                    ),
+                    array(
+                        'label'=>'Категории',
+                        'route'=>'admin/category',
+                        'action'=>'index',
+                    ),
+                    array(
+                        'label'=>'Добавить категорию',
+                        'route'=>'admin/category',
+                        'action'=>'add',
+                    ),
+//                    array(
+//                        'label'=>'Комментарии',
+//                        'route'=>'admin/comment',
+//                        'action'=>'index',
+//                    ),
+
                 ),
             ),
         ),
     ),
+
 
     'view_manager' => array(
         'template_path_stack' => array(
@@ -56,4 +110,6 @@ return array(
           'pagination_control' => __DIR__.'/../view/layout/pagination_control.phtml',
         ),
     ),
+
+
 );

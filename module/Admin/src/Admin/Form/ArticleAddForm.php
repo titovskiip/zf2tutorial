@@ -83,7 +83,7 @@ class ArticleAddForm extends Form implements ObjectManagerAwareInterface
         );
 
         $this->add(array(
-                'name'=>'Article',
+                'name'=>'article',
                 'type'=>'Textarea',
                 'options' => array(
                     'label' => 'Статья',
