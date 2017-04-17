@@ -13,10 +13,10 @@ class ArticleAddInputFilter extends InputFilter
             'required' => true,
             'validators' => array(
                 array(
-                    'name' => 'StringLenght', //название валидатора
+                    'name' => 'StringLength', //название валидатора
                     'options' => array(
                         'min' => 3,
-                        'max' => 100
+                        'max' => 100,
                     ),
                 ),
             ),
@@ -31,9 +31,9 @@ class ArticleAddInputFilter extends InputFilter
             'required' => false,
             'validators' => array(
                 array(
-                    'name' => 'StringLenght', //название валидатора
+                    'name' => 'StringLength', //название валидатора
                     'options' => array(
-                        'max' => 800
+                        'max' => 800,
                     ),
                 ),
             ),

@@ -17,30 +17,23 @@
                 if (isset($attributes['required'])) {
                     $label .= "*";
                 }
-                $label = "<label class='col-lg-2 control-label'>($label)</label>";
-            }
-
-            if (isset($attributes['type']) && $attributes['type'] == 'text') {
-                echo $this->formLabel($element);
-                echo "<div>";
-                echo $this->formInput($element);
-                echo "</div>";
+                $label = "<label class='col-lg-2 control-label'>{$label}</label>";
             }
 
             $type = isset($attributes['type']) ? $attributes['type'] : '';
-            $formatElement = '';
+            $formElement = '';
             switch ($type) {
                 case 'text':
-                    $formatElement = $this->formLabel($element);
+                    $formElement = $this->formInput($element);
                     break;
                 case 'textarea':
-                    $formatElement = $this->formTextArea($element);
+                    $formElement = $this->formTextArea($element);
                     break;
                 case 'select':
-                    $formatElement = $this->formSelect($element);
+                    $formElement = $this->formSelect($element);
                     break;
                 default:
-                    $formatElement = $this->formRow($element);
+                    $formElement = $this->formRow($element);
                     $label = '';
                     break;
             }

@@ -4,6 +4,7 @@ namespace Admin\Controller;
 
 use Admin\Form\ArticleAddForm;
 use Blog\Entity\Article;
+use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Application\Controller\BaseAdminController as BaseController;
@@ -33,7 +34,8 @@ class ArticleController extends BaseController
     public function addAction()
     {
         $em = $this->getEntityManager();
-        $form = new ArticleAddForm($em);;
+        $form = new ArticleAddForm($em);
+
 
         $request = $this->getRequest();
 
@@ -41,12 +43,12 @@ class ArticleController extends BaseController
             $status = $message = '';
             $data = $request->getPost();
             $article = new Article();
-            $form->setHydrator(new DoctrineHydrator($em, '\Article'));
+            $form->setHydrator(new DoctrineHydrator ($em, 'Blog\Entity\Article'));
             $form->bind($article);
             $form->setData($data);
 
             if ($form->isValid()) {
-                $em->pesist($article);
+                $em->persist($article);
                 $em->flush();
 
                 $status = 'success';
@@ -56,7 +58,7 @@ class ArticleController extends BaseController
                 $message = 'Ошибка';
 
                 foreach ($form->getInputFilter()->getInvalidInput() as $errors) {
-                    foreach ($errors->getMessage() as $error) {
+                    foreach ($errors->getMessages() as $error) {
                         $message .= ' ' . $error;
                     }
                 }

@@ -4,13 +4,11 @@ namespace Admin\Form;
 
 use Zend\Form\Form;
 use Zend\Form\Element;
-use Doctrine\Common\Persistence\ObjectManager;
 use DoctrineModule\Persistence\ObjectManagerAwareInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use Admin\Filter\ArticleAddInputFilter;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Blog\Entity\Article;
-use Zend\InputFilter\Factory as InputFactory;
-use Zend\InputFilter\InputFilter;
 
 class ArticleAddForm extends Form implements ObjectManagerAwareInterface
 {
@@ -31,6 +29,12 @@ class ArticleAddForm extends Form implements ObjectManagerAwareInterface
         parent::__construct('articleAddForm');
         $this->setObjectManager($objectManager);
         $this->createElements();
+    }
+
+    public function createElements()
+    {
+        $this->setAttribute('method', 'post');
+        $this->setAttribute('class', 'bs-example form-horizontal');
 
         $this->setInputFilter(new ArticleAddInputFilter());
 
@@ -82,10 +86,11 @@ class ArticleAddForm extends Form implements ObjectManagerAwareInterface
                 'name'=>'Article',
                 'type'=>'Textarea',
                 'options' => array(
-                    'label' => 'Статьи',
+                    'label' => 'Статья',
                 ),
                 'attributes' => array(
                     'class' => 'form-control ckeditor',
+                    'required' => 'required',
                 ),
             )
         );
@@ -96,7 +101,7 @@ class ArticleAddForm extends Form implements ObjectManagerAwareInterface
                 'options' => array(
                     'label' => 'Опубликовать',
                     'use_hidden_Element' => true,
-                    'check_value' => 1,
+                    'checked_value' => 1,
                     'unchecked_value' => 0
                 ),
             )
