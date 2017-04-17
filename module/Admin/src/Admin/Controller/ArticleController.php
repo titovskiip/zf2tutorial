@@ -21,7 +21,7 @@ class ArticleController extends BaseController
         $query = $this->getEntityManager()->createQueryBuilder();
         $query ->select('a')
                ->from('Blog\Entity\Article','a')
-               ->orderBy('a.id', ASC);
+               ->orderBy('a.id','ASC');
 
         $adapter = new DoctrineAdapter(new ORMPaginator($query));
 

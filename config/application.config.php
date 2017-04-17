@@ -11,6 +11,7 @@ return array(
         'Application',
         'ZendDeveloperTools',
         'Album',
+        'EdpModuleLayouts',
         //'MyBlog',
         'Blog',
         'Admin'

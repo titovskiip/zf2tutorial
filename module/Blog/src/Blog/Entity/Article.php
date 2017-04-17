@@ -3,6 +3,7 @@
 namespace Blog\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use function Symfony\Component\Debug\Tests\testHeader;
 
 /**
  * Article
@@ -197,6 +198,22 @@ class Article
     {
         $article = strip_tags($this->getShortArticle());
         $article = mb_substr($article,0,20,'UTF-8').'...';
+        return $article;
+    }
+
+    public function getShortArticleForBlog()
+    {
+        $article = $this->getShortArticle();
+        if(empty($article)) {
+            $article = $this->getArticle();
+        }
+
+        return $article;
+    }
+
+    public function getFullArticle()
+    {
+        $article = $this->getShortArticle().$this->getArticle();
         return $article;
     }
 }
