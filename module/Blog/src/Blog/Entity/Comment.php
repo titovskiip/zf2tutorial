@@ -3,6 +3,7 @@
 namespace Blog\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Form\Annotation;
 
 /**
  * Comment
@@ -18,6 +19,7 @@ class Comment
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Annotation\Type ("Zend\Form\Element\Hidden")
      */
     private $id;
 
@@ -25,7 +27,13 @@ class Comment
      * @var string
      *
      * @ORM\Column(name="user_email", type="string", length=50, nullable=false)
+     *  @Annotation\Type("Zend\Form\Element\Email")
+     * @Annotation\Oprions({"lable":"Email"})
+     * @Annotation\Required({"required":"true"})
+     * @Annotation\Attributes({"id":"user_email","class":"form-control","required":"required"})
+     * @Annotation\Validator({"name":"EmailAdress"})
      */
+
     private $userEmail;
 
     /**
